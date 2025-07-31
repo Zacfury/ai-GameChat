@@ -19,8 +19,8 @@ app.post('/ask', async (req, res) => {
       },
       {
         headers: {
-          "Authorization": `Bearer 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`,
-          "HTTP-Referer": "https://ai-gamechat-production.up.railway.app", // required by OpenRouter
+          "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
+          "HTTP-Referer": "http://194.238.18.15", // required by OpenRouter
           "Content-Type": "application/json"
         }
       }
