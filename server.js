@@ -14,7 +14,7 @@ app.post('/ask', async (req, res) => {
     const response = await axios.post(
       'https://openrouter.ai/api/v1/chat/completions',
       {
-        model: "cognitivecomputations/dolphin-mistral-24b-venice-edition:free",  // You can try other models like mythomax, mistral-7b-instruct etc.
+        model: "mistralai/mistral-7b-instruct:free",  // You can try other models like mythomax, mistral-7b-instruct etc.
         messages: [{ role: "user", content: message }]
       },
       {
