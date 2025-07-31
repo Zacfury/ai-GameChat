@@ -14,23 +14,23 @@ app.post('/ask', async (req, res) => {
     const response = await axios.post(
       'https://openrouter.ai/api/v1/chat/completions',
       {
-        model: "mistralai/mistral-7b-instruct:free",  // You can try other models like mythomax, mistral-7b-instruct etc.
+        model: "mistralai/mistral-7b-instruct:free",
         messages: [{ role: "user", content: message }]
       },
       {
         headers: {
           "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
-          "HTTP-Referer": "http://194.238.18.15", // required by OpenRouter
+          "HTTP-Referer": "http://194.238.18.15",  // ✅ your VPS IP, plain HTTP
           "Content-Type": "application/json"
         }
       }
     );
-    console.log("Loaded API Key:", process.env.OPENROUTER_API_KEY);
     res.json({ reply: response.data.choices[0].message.content });
   } catch (err) {
     console.error("❌ OpenRouter API Error:", err.response?.data || err.message);
     res.status(500).json({ error: "OpenRouter API error", detail: err.message });
   }
+
   console.log("📝 Prompt:", message);
   console.log("🔑 API Key present:", !!process.env.OPENROUTER_API_KEY);
 });
