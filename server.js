@@ -19,13 +19,13 @@ app.post('/ask', async (req, res) => {
       },
       {
         headers: {
-          "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
+          "Authorization": `Bearer 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`,
           "HTTP-Referer": "https://ai-gamechat-production.up.railway.app", // required by OpenRouter
           "Content-Type": "application/json"
         }
       }
     );
-
+    console.log("Loaded API Key:", process.env.OPENROUTER_API_KEY);
     res.json({ reply: response.data.choices[0].message.content });
   } catch (err) {
     console.error("❌ OpenRouter API Error:", err.response?.data || err.message);
