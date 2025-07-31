@@ -20,7 +20,7 @@ app.post('/ask', async (req, res) => {
       {
         headers: {
           "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
-          "HTTP-Referer": "http://localhost:3000", // required by OpenRouter
+          "HTTP-Referer": "https://ai-gamechat-production.up.railway.app", // required by OpenRouter
           "Content-Type": "application/json"
         }
       }
@@ -31,6 +31,8 @@ app.post('/ask', async (req, res) => {
     console.error("❌ OpenRouter API Error:", err.response?.data || err.message);
     res.status(500).json({ error: "OpenRouter API error", detail: err.message });
   }
+  console.log("📝 Prompt:", message);
+  console.log("🔑 API Key present:", !!process.env.OPENROUTER_API_KEY);
 });
 
 app.listen(3000, () => {
