@@ -19,7 +19,7 @@ app.post("/ask", async (req, res) => {
     const response = await axios.post(
       "https://openrouter.ai/api/v1/chat/completions",
       {
-        model: "openai/gpt-4o-mini",
+        model: "openai/gpt-4o-mini", // you can swap model here
         messages: [{ role: "user", content: message }]
       },
       {
@@ -39,7 +39,7 @@ app.post("/ask", async (req, res) => {
 });
 
 /**
- * ROUTE 2: AI text + TTS
+ * ROUTE 2: AI text + TTS (ElevenLabs)
  * POST /ask_and_tts
  * Body: { message: "Hello AI" }
  */
@@ -63,18 +63,17 @@ app.post("/ask_and_tts", async (req, res) => {
     );
     const reply = aiRes.data.choices[0].message.content;
 
-    // 2. Convert reply text to speech (OpenAI TTS)
+    // 2. Convert reply text to speech (ElevenLabs TTS)
     const ttsRes = await axios.post(
-      "https://api.openai.com/v1/audio/speech",
+      `https://api.elevenlabs.io/v1/text-to-speech/${process.env.ELEVEN_VOICE_ID}`,
       {
-        model: "gpt-4o-mini-tts",
-        voice: "alloy", // available: alloy, verse, shimmer, etc
-        input: reply,
-        format: "ogg"
+        text: reply,
+        model_id: "eleven_multilingual_v2", // works for most voices
+        voice_settings: { stability: 0.5, similarity_boost: 0.8 }
       },
       {
         headers: {
-          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+          "xi-api-key": process.env.ELEVEN_API_KEY,
           "Content-Type": "application/json"
         },
         responseType: "arraybuffer"
